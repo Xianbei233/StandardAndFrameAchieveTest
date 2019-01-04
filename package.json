@@ -1,0 +1,26 @@
+{
+  "name": "learn.js",
+  "version": "0.0.1",
+  "description": "learning",
+  "main": "AMD.js",
+  "dependencies": {
+    "eslint": "^5.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xianbei233/StandardAndFrameAchieveTest.git"
+  },
+  "keywords": [
+    "learning"
+  ],
+  "author": "xianbei233",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xianbei233/StandardAndFrameAchieveTest/issues"
+  },
+  "homepage": "https://github.com/Xianbei233/StandardAndFrameAchieveTest#readme"
+}
