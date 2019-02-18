@@ -2,10 +2,7 @@
   "name": "learn.js",
   "version": "0.0.1",
   "description": "learning",
-  "main": "AMD.js",
-  "dependencies": {
-    "eslint": "^5.11.1"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
