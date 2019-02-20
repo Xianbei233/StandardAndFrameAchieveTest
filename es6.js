@@ -61,7 +61,7 @@ let desc = "${name}今年${age}岁了";
 
 function replace(desc) {
     desc.replace(/\$\{([^}]+)\}/g, function (matched, key) {
-        console.log(arguments) 
+        console.log(arguments)
         //function会在每次替换时调用，有四个参数
         //1、匹配字符
         //2、正则表达式分组内容，无分组就没有参数
@@ -73,7 +73,7 @@ function replace(desc) {
 
 //模板字符串可以换行
 
-let users = [{id:1,name:'asd'},{id:2,name:'asdasd'}]
+let users = [{ id: 1, name: 'asd' }, { id: 2, name: 'asdasd' }]
 
 /**
  * <ul>
@@ -81,7 +81,7 @@ let users = [{id:1,name:'asd'},{id:2,name:'asdasd'}]
  * </ul>
  */
 
-let newList = users.map(function(user,index){
+let newList = users.map(function (user, index) {
     return `<li>${user.id}:${user.name}</li>`
 }).join('')
 
@@ -97,10 +97,10 @@ console.log(newList)
 //模板字符串带标签运用
 //实际标签就像一个函数调用，参数1是实际文本的数组，剩余参数是模板对应值
 //标签是实现自定义的模板逻辑
-function anlys(strings,...rest){
+function anlys(strings, ...rest) {
     let result = '';
-    for (let i = 0;i<rest.length;i++){
-        result += (strings[i]+values[i]);
+    for (let i = 0; i < rest.length; i++) {
+        result += (strings[i] + values[i]);
     }
     result += strings[strings.length - 1];
     return result
@@ -117,21 +117,21 @@ let str = anlys`${name}今年${age}岁了`;
 
 //函数默认参数  必填项不填报错 
 
-function ajax(url,matched,dataType){
-    if(typeof url == 'undefined') throw Error('url不能为空')
-    method = method?method:'GET';
-    dataType = dataType?dataType:'json'
+function ajax(url, matched, dataType) {
+    if (typeof url == 'undefined') throw Error('url不能为空')
+    method = method ? method : 'GET';
+    dataType = dataType ? dataType : 'json'
 }
 
-function ajaxRe(url = new Error('url不能为空'), method ='GET', dataType = 'json'){
-    console.log(url,method,dataType)
+function ajaxRe(url = new Error('url不能为空'), method = 'GET', dataType = 'json') {
+    console.log(url, method, dataType)
 }
 
 /**
  *  展开操作符
  */
 
-function sum(prefix,...rest){
+function sum(prefix, ...rest) {
     /**
      * array.map(function(currentValue,index,arr), thisValue) //返回新数组
      * array.forEach(function(currentValue, index, arr), thisValue) 
@@ -143,8 +143,8 @@ function sum(prefix,...rest){
 }
 
 //展开运算符  相当于把数组/对象中中的每个元素取出
-let arr1 = [1,2]
-let arr2 = [3,4]
+let arr1 = [1, 2]
+let arr2 = [3, 4]
 //let arr3 = [].concat(arr1,arr2)
 let arr3 = [...arr1, ...arr2]
 
@@ -152,8 +152,8 @@ let arr3 = [...arr1, ...arr2]
 let max = Math.max(...arr1)
 
 
-let obj1 = {name:1}
-let obj2 = {age:2}
+let obj1 = { name: 1 }
+let obj2 = { age: 2 }
 let obj3 = {}
 
 // for (let key in obj1){
@@ -165,16 +165,16 @@ let obj3 = {}
 
 //Object.assign(obj3,obj1,obj2) 浅拷贝方法，地址拷贝
 
-obj3 = {...obj1,...obj2}
+obj3 = { ...obj1, ...obj2 }
 
 //深拷贝， 开新对象地址
 
-function clone(origin){
+function clone(origin) {
     let copy = {}
-    for (let key in origin){
-        if(typeof origin[key]=='object'){
+    for (let key in origin) {
+        if (typeof origin[key] == 'object') {
             copy[key] = clone(origin[key])
-        }else{
+        } else {
             copy[key] = origin[key]
         }
     }
@@ -187,18 +187,18 @@ function clone(origin){
 
 //1. 单参数、单返回项  括号可省略
 
-let double = num => num*2
+let double = num => num * 2
 
 //箭头函数无自己的this,会固定继承作用域上层this
 
 let obj4 = {
-    name:'1',
-    getName(){
+    name: '1',
+    getName() {
         //let self = this
         // setTimeout(function(){
         //     console.log(self.name)
         // },1000)
-        setTimeout( () => {
+        setTimeout(() => {
             console.log(this.name)
         }, 1000)
     }
@@ -233,9 +233,9 @@ foo.call({ id: 42 });
 
 //对象的属性名与变量名相同的话可二合一
 
-let name ='123'
+let name = '123'
 let age = 1
-let obj9 = {name,age}
+let obj9 = { name, age }
 
 //super可调用对象父级的方法属性
 
@@ -244,32 +244,85 @@ let obj9 = {name,age}
 //原型上的属性 指在实例的__proto__里定义的属性,实例可调用
 //静态属性 指class(的constructor)上定义的属性，无法使用实例调用
 
-function newConstructor(Constructor, protoProps, staticProps){
-    if(protoProps) defineProperties(Constructor.prototype,protoProps) //原型上的属性
-    if(staticProps) defineProperties(Constructor,staticProps) //静态方法
+function newConstructor(Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps) //原型上的属性
+    if (staticProps) defineProperties(Constructor, staticProps) //静态方法
     return Constructor
 }
 
-class Parent{
-    constructor(name){
+class Parent {
+    constructor(name) {
         this.name = name //实例的私有属性
     }
     //原型上的属性
-    getName(){
+    getName() {
         console.log(this.name)
     }
     //静态属性
-    static hello(){
+    static hello() {
         console.log('123')
     }
 }
 
 //当使用Parent（）时，实际上是调用的构造函数
 //通过new Object()产生的对象实例是没有prototype这一属性的
-//实例是根据构造函数的prototype生成的，构造函数内部的属性声明实际上是挂靠在prototype对象上，专门处理原型链
+//实例是根据构造函数生成的，构造函数内部的属性方法声明最终会挂靠在实例的prototype对象上
+//构造函数prototype上的方法会通过原型链继承给实例
 //构造函数原型（prototype对象）添加修改的属性是公有的，可以被new实例接收
 //构造函数实例（本身instance对象）添加修改属性是私有的，不可被new实例接收
 
 
 
 //生成器(Generator)和迭代器(Iterator)
+
+function read(books) {
+    let index = 0;
+    return { //返回对象
+        next() { //对象方法next
+            let done = (index == books.length - 1)
+            let value = books[index]
+            index++
+            return {
+                value, done
+            }
+        }
+    }
+}
+
+let it = read(['js', 'node']) //it有个方法叫next，每调用next就会返回一个结果{value,done}
+
+//生成器函数与普通函数不同，返回值是迭代器，声明时函数名前面需要有*
+//执行的时候
+//生成器函数将普通函数流程进行了分割，每次返回函数流程中阶段性的结果
+function* readRE(books) {
+    console.log("start")
+    for (let i = 0; i < books.length; i++) {
+        yield books[i] //yield 放弃 产出 关键字后面为产出结果，赋予value
+    }
+    console.log('end')
+}
+
+let itRE = readRE(['js', 'node'])
+
+//数据结构 Set  无重复元素的集合
+
+var book = new Set()
+book.add('asd') //集合添加
+book.size //集合大小
+book.has('asd') //集合查找
+book.delete('asd') //集合删除
+book.clear() //集合清空
+book.forEach() //集合遍历
+
+
+//数据结构 Map 键值对集合
+
+var book = new Map();
+book.set(key, value)//集合添加
+book.size
+book.get(key) //获取value
+book.delete(key)
+book.has(key) //查找
+book.forEach()
+book.clear()
+
