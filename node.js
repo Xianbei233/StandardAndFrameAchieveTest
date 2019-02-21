@@ -26,3 +26,34 @@ console.dir()
 
 console.trace();
 //显示调用栈
+
+/**
+ * event模块
+ * 
+ */
+
+let EventEmitter = require('event')
+let util = require('util') //工具模块
+
+function Bell(){
+    EventEmitter.call(this);//继承私有属性
+}
+//原型链上继承公有属性
+util.inherits(Bell,EventEmitter) //工具模块中的继承工具
+let bell = new Bell();
+
+function trigger1(){
+    console.log('学生入场')
+}
+//注册事件 object.on(event,listener)
+bell.on('响',trigger1)
+//触发事件 object.emit(event) 返回执行的listener结果
+bell.emit('响')
+//addListener和on实际上是同一个方法换皮
+
+//once方法绑定listener只执行一次
+bell.once('响',dismiss)
+
+
+
+
