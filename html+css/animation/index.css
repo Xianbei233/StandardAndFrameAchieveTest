@@ -1,0 +1,16 @@
+section {
+    width: 100px;
+    height: 100px;
+    background: red;
+    position: absolute;
+    left: 0;
+    transition: width 1s 1s;
+}
+
+section:hover {
+    width: 200px;
+    /* transition-property: width;
+    transition-duration: 1s;
+    transition-timing-function: linear */
+    transition: width 1s 1s;
+}

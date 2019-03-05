@@ -266,3 +266,65 @@ fs.open(url, flag, mode, (err, fd) => {
         })
     })
 })
+
+//截断文件 
+fs.truncate(url, 5, () => {
+    console.log('保留了文件的前5个字节')
+})
+
+//异步递归删除空文件夹
+
+function rmdirPro(dir) {
+    return new Promise(function (resolve, reject) {
+        fs.stat(dir,(err,stat)=>{
+            if(stat.isDirectory()){
+                fs.readdir(dir, (err, files) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    Promise.all(files.map(item => {
+                        rmdirPro(path.join(dir,item))
+                    })).then(() => {
+                        fs.rmdir(dir, resolve)
+                    })
+                })
+            }else{
+                fs.unlink(dir,resolve)
+            }
+        })
+    })
+}
+
+
+//stream  一组有序，有起点和终点的字节数据传输手段
+
+let rs = fs.createReadStream('1.txt',{
+    highWaterMark:3 //高水位标记（缓冲区大小）
+});
+//读取成功触发data事件
+rs.on('data',function(data){
+
+})
+
+//读取失败触发error
+rs.on('error',function(error){
+
+})
+
+//读取结束触发end
+rs.on('end',function(){
+
+})
+
+//文件关闭触发close
+rs.on('close',function(){
+
+})
+
+//暂停读取和发射data事件
+rs.pause()
+
+rs.resume()
+
+
+rs.pipe(ws)//将
