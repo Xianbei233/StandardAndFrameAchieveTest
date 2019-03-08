@@ -29,6 +29,7 @@ function Vue(options = {}) {
 }
 
 function Observer(data) {
+    let dep = new Dep()
     for (key in data) {
         let val = data[key]
         Object.defineProperty(data, key, {
@@ -39,6 +40,9 @@ function Observer(data) {
             get() {
                 //属性值获取，调用该方法
                 //此方法存在时，不可有value属性
+                if (Dep.target) {
+                    dep.addSub(Dep.target)
+                }
                 return val
 
             },
@@ -50,6 +54,7 @@ function Observer(data) {
                 } else {
                     val = newVal
                     observer(newVal)
+                    Dep.notify()
                 }
 
 
@@ -85,7 +90,10 @@ function Compile(el, vm) {
                 arr.forEach((key) => {
                     val = val[key]
                 })
-                node.textContent = text.replace(reg, val)
+                new Watcher(vm, RegExp.$1, (newVal) => {
+                    node.textContent = text.replace(/\{\{(.*)\}\}/, newVal)
+                })
+                node.textContent = text.replace(/\{\{(.*)\}\}/, val)
 
             }
             if (fragment.childNodes) {
@@ -95,4 +103,41 @@ function Compile(el, vm) {
     }
 
     vm.$el.appendChild(fragment)
+}
+
+//发布订阅
+function Dep() {
+    this, subs = []
+}
+
+Dep.prototype.addSub = function (sub) {
+    this.subs.push(sub)
+}
+
+Dep.prototype.notify = function () {
+    this.subs.forEach(sub => {
+        sub.update()
+    });
+}
+
+function Watcher(vm, exp, fn) {
+    this.fn = fn
+    this.vm = vm
+    this.exp = exp;
+    Dep.target = this;
+    let val = vm;
+    let arr = exp.split('.')
+    arr.forEach(key => {
+        val = val[key] //此处取值操作是为了调用重定义属性的get方法，添加订阅者
+    });
+    Dep.target = null
+}
+
+Watcher.prototype.update = function () {
+    let val = this.vm;
+    let arr = this.exp.split('.')
+    arr.forEach(key => {
+        val = val[key] //此处取值操作是为了获取新值
+    });
+    this.fn(val)
 }
