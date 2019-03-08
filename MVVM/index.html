@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--MVVM 双向数据绑定 angular 脏值检测 vue 数据劫持+发布订阅-->
+    <div id='app'>
+        {{a}}
+    </div>
+</body>
+<script>
+    let obj = {
+
+    }
+    Object.defineProperty(obj, 'school', {
+        configurable: true,//默认false，无法删除
+        //writable:true,//默认false，无法更改
+        enumerable: true,//默认false，无法枚举属性
+        //value:'abc',
+        get() {
+            //属性值获取，调用该方法
+            //此方法存在时，不可有value属性
+            return 'abc'
+
+        },
+        set(value) {
+            //属性值设置，调用该方法
+            //此方法存在时，不可有writable属性
+            console.log(value)
+
+        }
+
+    })
+
+</script>
+
+</html>
