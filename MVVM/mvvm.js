@@ -75,8 +75,24 @@ function Compile(el, vm) {
     while (child = vm.$el.firstChild) {
         fragment.appendChild(child)//此处操作会将真实dom节点转移进内存fragment中，会发生dom树结构变更
     }
-    Array.from(fragment.childNodes).forEach((node) => {
-        let
-    })
+    function replace(fragment) {
+        Array.from(fragment.childNodes).forEach((node) => {
+            let text = node.textContent
+            let reg = /\{\{(.*)\}\}/
+            if (node.nodeType === 3 && reg.test(text)) {
+                let arr = RegExp.$1.split('.')
+                let val = vm;
+                arr.forEach((key) => {
+                    val = val[key]
+                })
+                node.textContent = text.replace(reg, val)
+
+            }
+            if (fragment.childNodes) {
+                replace(node)
+            }
+        })
+    }
+
     vm.$el.appendChild(fragment)
 }
