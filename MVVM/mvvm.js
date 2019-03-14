@@ -24,8 +24,25 @@ function Vue(options = {}) {
             }
         })
     }
+    initComputed();
     new Compile(options.el, this)
 
+}
+
+function initComputed(){ //具有缓存功能
+    let vm = this;
+    let computed = this.$options.computed
+    Object.keys(computed).forEach((key)=>{
+        Object.defineProperty(vm,key,{
+            get(){
+                return typeof computed[key]==='function'?computed[key]:computed[key].get
+            },
+            set(){
+
+            }
+        })
+    })
+    //对象key变成数组列表
 }
 
 function Observer(data) {
