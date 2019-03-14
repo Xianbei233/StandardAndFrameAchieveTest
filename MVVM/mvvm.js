@@ -96,6 +96,25 @@ function Compile(el, vm) {
                 node.textContent = text.replace(/\{\{(.*)\}\}/, val)
 
             }
+            if (node.nodeType === 1) {
+                let nodeAttrs = node.attributes;
+                //类数组
+                Array.from(nodeAttrs).forEach(attr => {
+                    let name = attr.name
+                    let exp = attr.value
+                    if (name.indexOf('v-')) {
+                        node.value = vm[exp]
+
+                    }
+                    new Watcher(vm, exp, (newVal) => {
+                        node.value = newVal
+                    })
+                    node.addEventListener('input', function (e) {
+                        let newVal = e.target.value;
+                        vm[exp] = newVal
+                    })
+                })
+            }
             if (fragment.childNodes) {
                 replace(node)
             }
