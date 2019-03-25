@@ -1,3 +1,17 @@
+
+/**
+ * promise流程备注
+ * promise内有resolve和reject两个方法用于结果的传递（给回调函数）
+ * 同一个promise可以有多个不同的then处理，所以promise类内部有一个回调函数队列
+ * then方法的返回值是一个新的promise对象，这样才能进行链式调用
+ * 由于then方法返回的是新的promise对象，则该新promise实例传递的值就是该then方法内部回调函数的结果
+ * 所有回调函数都应该异步执行
+ * 由于promise执行结果和回调函数的返回值情况很多，因此需要再处理resolvePromise()
+ *  promise的resolve和reject方法会对promise执行结果进行解析，保证传出的结果是普通值
+ */
+
+
+
 const PENDING = "pending";
 const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
@@ -132,11 +146,12 @@ function resolvePromise(promise2, x, resolve, reject) {
 * [注册fulfilled状态/rejected状态对应的回调函数]
 * @param  {function} onFulfilled fulfilled状态时 执行的函数
 * @param  {function} onRejected  rejected状态时 执行的函数
-* @return {function} newPromsie  返回一个新的promise对象
+* @return {function} newPromise  返回一个新的promise对象
 */
 Promise.prototype.then = function (onFulfilled, onRejected) {
     const that = this;
     let newPromise;
+
     // 处理参数默认值 保证参数后续能够继续执行
     onFulfilled =
         typeof onFulfilled === "function" ? onFulfilled : value => value;
@@ -305,3 +320,4 @@ try {
 
 //exports = module.exports
 //exports 是module对象exports属性的一个引用
+

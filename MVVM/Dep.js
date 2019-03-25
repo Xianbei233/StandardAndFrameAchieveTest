@@ -3,7 +3,7 @@
 //
 
 function Dep(){
-    this,subs = []
+    this.subs = []
 }
 
 Dep.prototype.addSub = function(sub){
