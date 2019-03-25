@@ -33,13 +33,17 @@ function Vue(options = {}) {
 
 }
 
+const dep = new Dep()
 function initComputed() { //具有缓存功能
     let vm = this
     let computed = vm.$options.computed
     Object.keys(computed).forEach((key) => {
         Object.defineProperty(vm, key, {
             get() {
-                return typeof computed[key] === 'function' ? computed[key] : computed[key].get
+                if (Dep.target) {
+                    dep.addSub(Dep.target)
+                }
+                return typeof computed[key] === 'function' ? computed[key].bind(this) : computed[key].get.bind(this)
             },
             set() {
 
@@ -50,7 +54,6 @@ function initComputed() { //具有缓存功能
 }
 
 function Observer(data) {
-    let dep = new Dep()
     for (key in data) {
         let val = data[key]
         Object.defineProperty(data, key, {
