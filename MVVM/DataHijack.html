@@ -10,13 +10,14 @@
 
 <body>
     <div id="app">
-        <p>{{a}}</p>
+        <p>{{a.a}}</p>
         <div>{{b}}</div>
         <input type="text" v-model="b">
         {{hello}}
     </div>
 </body>
 <script src="mvvm.js"></script>
+
 <script>
     let vm = new Vue({
         el: '#app',
@@ -25,15 +26,16 @@
             b: 2,
             c: 'ok'
         },
-        //computed相当于把内部的属性方法挂载在vm实例上
+
         computed: {
             hello() {
+                console.log('执行', this.b, this.c)
+                console.log('结果：' + (this.b + this.c))
                 return this.b + this.c
             }
         }
 
     })
-
 </script>
 
 </html>
