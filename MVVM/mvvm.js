@@ -67,7 +67,7 @@ function Observer(data) {
                 if (Dep.target) {
                     dep.addSub(Dep.target)
                 }
-                console.log(dep.subs)
+                //console.log(dep.subs)
                 return val
 
             },
@@ -119,18 +119,16 @@ function Compile(el, vm) {
             if (node.nodeType === 3 && reg.test(text)) {
                 let arr = RegExp.$1.split('.')
                 let val = vm;
-                console.log(arr)
                 arr.forEach((key) => {
                     val = val[key]
-                    console.log(val)
                 })
                 new Watcher(vm, RegExp.$1, (newVal) => {
                     node.textContent = text.replace(/\{\{(.*)\}\}/, newVal)
                 })
 
                 node.textContent = text.replace(/\{\{(.*)\}\}/, val)
-                console.log(node.textContent)
-                console.log('----------------------')
+                //console.log(node.textContent)
+                //console.log('----------------------')
             }
             //此处处理元素节点
             if (node.nodeType === 1) {
@@ -163,7 +161,7 @@ function Compile(el, vm) {
         replace(fragment)
 
         vm.$el.appendChild(fragment)
-        console.log(vm.$el)
+
     }, 1000)
 
 }
